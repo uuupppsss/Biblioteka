@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Biblioteka.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Biblioteka"
+    xmlns:view="clr-namespace:Biblioteka.mvvm.view"
+    Shell.FlyoutBehavior="Disabled"
+    Title="Biblioteka">
+
+    <Shell.FlyoutHeader>
+        <local:HeaderView/>
+    </Shell.FlyoutHeader>
+
+    <Shell.FlyoutFooter>
+        <local:FooterView/>
+    </Shell.FlyoutFooter>
+
+    <!-- Главная страница -->
+    <FlyoutItem Title="Главная" FlyoutDisplayOptions="AsSingleItem">
+        <ShellContent Title="Главная" ContentTemplate="{DataTemplate view:MainPage}" />
+    </FlyoutItem>
+
+    <!-- Вкладка для работы с книгами -->
+    <TabBar>
+        <Tab Title="Книги">
+            <ShellContent Title="Список книг" ContentTemplate="{DataTemplate view:MainPage}" />
+        </Tab>
+
+        <Tab Title="Добавить книгу">
+            <ShellContent Title="Добавить книгу" ContentTemplate="{DataTemplate view:AddBookPage}" />
+        </Tab>
+    </TabBar>
+
+    <!-- Авторизация и регистрация -->
+    <ShellContent Title="Авторизация" Route="login" ContentTemplate="{DataTemplate view:LoginPage}" />
+    <ShellContent Title="Регистрация" Route="register" ContentTemplate="{DataTemplate view:RegisterPage}" />
+
+</Shell>

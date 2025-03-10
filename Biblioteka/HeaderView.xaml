@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Biblioteka.HeaderView">
+    <StackLayout HorizontalOptions="Center" Padding="10">
+        <Image Source="logo.png" WidthRequest="100" HeightRequest="100" />
+        <Label Text="Добро пожаловать в Библиотеку" HorizontalOptions="Center" />
+    </StackLayout>
+</ContentView>
+
