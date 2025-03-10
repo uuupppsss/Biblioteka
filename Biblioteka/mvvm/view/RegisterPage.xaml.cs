@@ -1,9 +1,16 @@
 ﻿using Biblioteka.mvvm.model;
+using Biblioteka.mvvm.viewmodel;
 
 namespace Biblioteka.mvvm.view;
 
 public partial class RegisterPage : ContentPage
 {
+    public RegisterPage()
+    {
+        InitializeComponent();
+        BindingContext = new RegisterPageVM();
+    }
+
     //private FakeDB database;
     //public string Username { get; set; }
     //public string Password { get; set; }

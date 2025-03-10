@@ -22,11 +22,11 @@ namespace BibliotekaAPI.Controllers
 
         // Получить всех пользователей
         [HttpGet("GetUsers")]
-        public async Task<ActionResult> GetUsers() => Ok(await _db.GetUsersAsync());
+        public async Task<ActionResult<List<User>>> GetUsers() => Ok(await _db.GetUsersAsync());
 
         // Получить пользователя по ID
         [HttpGet("GetUserById/{id}")]
-        public async Task<ActionResult> GetUserById(int id)
+        public async Task<ActionResult<User>> GetUserById(int id)
         {
             var user = await _db.GetUserByIdAsync(id);
             if (user == null) return NotFound("Пользователь не найден.");
@@ -51,10 +51,9 @@ namespace BibliotekaAPI.Controllers
 
         // Авторизация
         [HttpPost("Login")]
-        public async Task<ActionResult> Login(User user)
+        public async Task<ActionResult<User>> Login(User user)
         {
             var authenticatedUser = await _db.AuthenticateUserAsync(user.Username, user.Password);
-
             return Ok(authenticatedUser);
         }
     }

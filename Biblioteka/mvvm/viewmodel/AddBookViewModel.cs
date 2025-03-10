@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Biblioteka.mvvm.viewmodel
 {
-    [QueryProperty(nameof(SelectedBook), "SelectedBook")]
+    [QueryProperty(nameof(UpdatingBookId), "UpdatingBookId")]
     public class AddBookViewModel :BaseVM
     {
         private MessagesServise messagesServise;
@@ -79,39 +79,20 @@ namespace Biblioteka.mvvm.viewmodel
             }
         }
 
-        private Book? _selectedBook;
-
-        public Book? SelectedBook
-        {
-            get { return _selectedBook; }
-            set { 
-                _selectedBook = value;
-                Signal();
-            }
-        }
+        public int UpdatingBookId { get;set; }
 
         public CommandVM SaveBookCommand { get; }
 
         public AddBookViewModel()
         {
             messagesServise=MessagesServise.Instance;
-            connect=ApiConnect.Instance;
-            //connect=FakeDB.Instance;
-            if (SelectedBook != null)
-            {
-                Title =SelectedBook.Title;
-                Author=SelectedBook.Author;
-                Description=SelectedBook.Description;
-                Genre=SelectedBook.Genre;
-                PublishDate=SelectedBook.PublishDate;
-                PageCount=SelectedBook.PageCount;
-            }
+            connect= ApiConnect.Instance;
             SaveBookCommand = new CommandVM(() => SaveBook());
         }
 
         private async void SaveBook()
         {
-            if (SelectedBook == null)
+            if (UpdatingBookId == 0)
             {
                 if (!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Author))
                 {
@@ -128,7 +109,7 @@ namespace Biblioteka.mvvm.viewmodel
             {
                 if (!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Author))
                 {
-                    await connect.AddBookAsync(new Book { Title = Title, Author = Author, Description = Description });
+                    await connect.UpdateBookAsync(new Book { Id=UpdatingBookId, Title = Title, Author = Author, Description = Description });
                     await messagesServise.ShowWarning("Успешно", "Книга добавлена");
                     await Application.Current.MainPage.Navigation.PopAsync();
                 }

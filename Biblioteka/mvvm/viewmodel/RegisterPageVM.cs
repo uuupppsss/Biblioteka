@@ -18,7 +18,7 @@ namespace Biblioteka.mvvm.viewmodel
 
         public RegisterPageVM()
         {
-            connect=ApiConnect.Instance;
+            connect= ApiConnect.Instance;
             messagesServise=MessagesServise.Instance;
 
             RegisterCommand = new CommandVM(async () =>

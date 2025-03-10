@@ -1,4 +1,5 @@
 ﻿using Biblioteka.mvvm.model;
+using Biblioteka.mvvm.viewmodel;
 
 namespace Biblioteka.mvvm.view;
 
@@ -7,6 +8,7 @@ public partial class LoginPage : ContentPage
     public LoginPage()
     {
         InitializeComponent();
+        BindingContext = new LoginPageVM();
     }
     //   private FakeDB _database;
     //   public string Username { get; set; }

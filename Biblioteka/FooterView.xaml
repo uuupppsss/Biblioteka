@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Biblioteka.FooterView">
     <StackLayout HorizontalOptions="Center" Padding="10">
-        <Button Text="Выход"/>
+        <Button Text="Выход" Command="{Binding LogOut}"/>
+        <Button Text="Удалить аккаунт" Command="{Binding DeleteAccount}"/>
         <Label Text="Контакты: support@biblioteka.com" HorizontalOptions="Center" />
     </StackLayout>
 </ContentView>

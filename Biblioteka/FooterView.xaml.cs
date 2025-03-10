@@ -1,3 +1,5 @@
+using Biblioteka.mvvm.viewmodel;
+
 namespace Biblioteka;
 
 public partial class FooterView : ContentView
@@ -5,10 +7,8 @@ public partial class FooterView : ContentView
 	public FooterView()
 	{
 		InitializeComponent();
+		BindingContext = new FooterVM();
 	}
 
-    private void OnExitClicked(object sender, EventArgs e)
-    {
 
-    }
 }

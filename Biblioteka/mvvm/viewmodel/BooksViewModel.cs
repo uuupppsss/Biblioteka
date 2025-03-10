@@ -39,7 +39,7 @@ namespace Biblioteka.mvvm.viewmodel
 
         public BooksViewModel()
         {
-            connect=ApiConnect.Instance;
+            connect= ApiConnect.Instance;
 			connect.BooksListChanged += LoadBooks;
 			LoadBooks();
 			

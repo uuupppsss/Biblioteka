@@ -54,7 +54,7 @@ namespace Biblioteka.mvvm.viewmodel
         public MainPageVM()
         {
             Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
-            connect =ApiConnect.Instance;
+            connect = ApiConnect.Instance;
             connect.BooksListChanged += LoadBooks;
             LoadBooks();
             AddBook = new CommandVM(async () =>

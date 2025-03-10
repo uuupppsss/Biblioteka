@@ -47,7 +47,7 @@ namespace Biblioteka.mvvm.viewmodel
                 {
                     var navigationParameter = new ShellNavigationQueryParameters
                     {
-                        { "SelectedBook", SelectedBook }
+                        { "UpdatingBookId", SelectedBook.Id }
                     };
                     await Shell.Current.GoToAsync("AddBookPage", navigationParameter);
                 }

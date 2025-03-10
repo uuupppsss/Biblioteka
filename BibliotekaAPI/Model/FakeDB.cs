@@ -9,8 +9,8 @@ namespace BibliotekaAPI.Model
 {
     public class FakeDB
     {
-        private ObservableCollection<User> _users;
-        private ObservableCollection<Book> _books;
+        private List<User> _users;
+        private List<Book> _books;
         private Dictionary<int, int> _bookUserLinks; // <bookId, userId>
 
         private int _userIdCounter = 1;
@@ -18,11 +18,11 @@ namespace BibliotekaAPI.Model
 
         public FakeDB()
         {
-            _users = new ObservableCollection<User>()
+            _users = new List<User>()
             {
                 new User() { Id = _userIdCounter++, Username = "admin", Password = "1234" }
             };
-            _books = new ObservableCollection<Book>()
+            _books = new List<Book>()
             {
                 new Book { Id = _bookIdCounter++, IsPopular=true, Title = "1984", Author = "Джордж Оруэлл", Description = "Антиутопия о тоталитарном обществе." },
                 new Book { Id = _bookIdCounter++, IsPopular=true, Title = "Мастер и Маргарита", Author = "Михаил Булгаков", Description = "Роман о любви, вере и мистике." },
@@ -38,9 +38,9 @@ namespace BibliotekaAPI.Model
         }
 
         // Получение списка пользователей
-        public async Task<ObservableCollection<User>> GetUsersAsync()
+        public async Task<List<User>> GetUsersAsync()
         {
-            return await Task.FromResult(new ObservableCollection<User>(_users));
+            return await Task.FromResult(new List<User>(_users));
         }
 
         // Получение пользователя по ID
@@ -82,9 +82,9 @@ namespace BibliotekaAPI.Model
         }
 
         // Получение списка книг
-        public async Task<ObservableCollection<Book>> GetBooksAsync()
+        public async Task<List<Book>> GetBooksAsync()
         {
-            return await Task.FromResult(new ObservableCollection<Book>(_books));
+            return await Task.FromResult(new List<Book>(_books));
         }
 
         // Получение книги по ID
@@ -117,6 +117,10 @@ namespace BibliotekaAPI.Model
                 book.Title = updatingBook.Title;
                 book.Author = updatingBook.Author;
                 book.Description = updatingBook.Description;
+                book.IsPopular = updatingBook.IsPopular;
+                book.PublishDate = updatingBook.PublishDate;
+                book.PageCount = updatingBook.PageCount;
+                book.Genre= updatingBook.Genre;
             }
         }
         // Проверка связи книги с пользователем

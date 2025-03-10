@@ -108,9 +108,23 @@ namespace Biblioteka.mvvm.model
         }
 
         //Обновление книги
-        public async Task UpdateBookAsync()
+        public async Task UpdateBookAsync(Book book)
         {
-
+            string json = JsonSerializer.Serialize(book);
+            try
+            {
+                var responce = await _httpClient.PostAsJsonAsync($"book/UpdateBook",
+                    new StringContent(json, Encoding.UTF8, "application/json"));
+                if (!responce.IsSuccessStatusCode)
+                {
+                    await _messagesServise.ShowWarning("Error", responce.StatusCode.ToString());
+                }
+                else BooksListChanged.Invoke();
+            }
+            catch (Exception ex)
+            {
+                await _messagesServise.ShowWarning("Error", ex.ToString());
+            }
         }
 
         // Удалить книгу по ID
@@ -230,6 +244,8 @@ namespace Biblioteka.mvvm.model
                 await _messagesServise.ShowWarning("Error", ex.ToString());
             }
         }
+
+
 
         // Удалить пользователя по ID
         public async Task DeleteUserAsync(int id)

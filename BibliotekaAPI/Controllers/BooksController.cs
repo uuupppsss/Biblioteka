@@ -21,11 +21,11 @@ namespace BibliotekaAPI.Controllers
 
         // Получить список всех книг
         [HttpGet("GetBooks")]
-        public async Task<ActionResult> GetBooks() => Ok(await _db.GetBooksAsync());
+        public async Task<ActionResult<List<Book>>> GetBooks() => Ok(await _db.GetBooksAsync());
 
         // Получить книгу по ID
         [HttpGet("GetBookById/{id}")]
-        public async Task<ActionResult> GetBookById(int id)
+        public async Task<ActionResult<User>> GetBookById(int id)
         {
             var book = await _db.GetBookByIdAsync(id);
             if (book == null) return NotFound("Книга не найдена.");
@@ -62,6 +62,14 @@ namespace BibliotekaAPI.Controllers
         {
             await _db.UnlinkBookFromUserAsync(bookId);
             return Ok("Связь книги с пользователем удалена.");
+        }
+
+        //обновление книги
+        [HttpPost("UpdateBook")]
+        public async Task<ActionResult> UpdateBook(Book book)
+        {
+            await _db.EditBookAsync(book);
+            return Ok();
         }
     }
 }
