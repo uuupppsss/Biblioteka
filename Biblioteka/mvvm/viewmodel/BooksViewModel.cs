@@ -12,7 +12,7 @@ namespace Biblioteka.mvvm.viewmodel
 {
     public class BooksViewModel:BaseVM
     {
-		private FakeDB connect;
+		private ApiConnect connect;
 
 		private List<Book> _books;
 
@@ -39,7 +39,7 @@ namespace Biblioteka.mvvm.viewmodel
 
         public BooksViewModel()
         {
-            connect=FakeDB.Instance;
+            connect=ApiConnect.Instance;
 			connect.BooksListChanged += LoadBooks;
 			LoadBooks();
 			

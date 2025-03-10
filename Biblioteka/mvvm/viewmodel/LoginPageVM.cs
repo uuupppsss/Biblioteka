@@ -9,7 +9,7 @@ namespace Biblioteka.mvvm.viewmodel
 {
     public class LoginPageVM:BaseVM
     {
-        private FakeDB connect;
+        private ApiConnect connect;
         private MessagesServise messagesServise;
         public CommandVM LoginCommand {  get; set; }
 
@@ -18,7 +18,7 @@ namespace Biblioteka.mvvm.viewmodel
 
         public LoginPageVM()
         {
-            connect = FakeDB.Instance;
+            connect = ApiConnect.Instance;
             messagesServise = MessagesServise.Instance;
 
             LoginCommand = new CommandVM(async () =>
@@ -29,7 +29,7 @@ namespace Biblioteka.mvvm.viewmodel
                 }
                 else
                 {
-                    User foundUser=await connect.LoginAsync(Username,Password);
+                    User foundUser=await connect.LoginAsync(new User { Username=Username, Password=Password});
                     if (foundUser != null)
                     {
                         connect.CurrentUser = foundUser;

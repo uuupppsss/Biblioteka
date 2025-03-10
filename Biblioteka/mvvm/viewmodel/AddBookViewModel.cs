@@ -12,7 +12,7 @@ namespace Biblioteka.mvvm.viewmodel
     public class AddBookViewModel :BaseVM
     {
         private MessagesServise messagesServise;
-        private FakeDB connect;
+        private ApiConnect connect;
         private string _title;
         public string Title
         {
@@ -95,8 +95,8 @@ namespace Biblioteka.mvvm.viewmodel
         public AddBookViewModel()
         {
             messagesServise=MessagesServise.Instance;
-            //connect=ApiConnect.Instance;
-            connect=FakeDB.Instance;
+            connect=ApiConnect.Instance;
+            //connect=FakeDB.Instance;
             if (SelectedBook != null)
             {
                 Title =SelectedBook.Title;

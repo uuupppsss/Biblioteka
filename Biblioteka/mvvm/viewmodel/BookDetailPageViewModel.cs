@@ -10,7 +10,7 @@ namespace Biblioteka.mvvm.viewmodel
     [QueryProperty(nameof(SelectedBook), "SelectedBook")]
     public class BookDetailPageViewModel:BaseVM
     {
-        private FakeDB connect;
+        private ApiConnect connect;
         private Book _book;
 
         public Book SelectedBook
@@ -28,7 +28,7 @@ namespace Biblioteka.mvvm.viewmodel
 
         public BookDetailPageViewModel()
         {
-            connect = FakeDB.Instance;
+            connect = ApiConnect.Instance;
 
             //BackClick = new CommandVM(async()=>
             //{

@@ -9,7 +9,7 @@ namespace Biblioteka.mvvm.viewmodel
 {
     public class RegisterPageVM:BaseVM
     {
-        private FakeDB connect;
+        private ApiConnect connect;
         private MessagesServise messagesServise;
 
         public CommandVM RegisterCommand { get; set; }
@@ -18,7 +18,7 @@ namespace Biblioteka.mvvm.viewmodel
 
         public RegisterPageVM()
         {
-            connect=FakeDB.Instance;
+            connect=ApiConnect.Instance;
             messagesServise=MessagesServise.Instance;
 
             RegisterCommand = new CommandVM(async () =>
