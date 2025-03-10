@@ -25,7 +25,7 @@ namespace Biblioteka.mvvm.viewmodel
             {
                 if (Username == null || Password == null)
                 {
-                    messagesServise.ShowWarning("Ошибка", "Заполните все поля");
+                    await messagesServise.ShowWarning("Ошибка", "Заполните все поля");
                 }
                 else
                 {
@@ -33,12 +33,12 @@ namespace Biblioteka.mvvm.viewmodel
                     if (foundUser != null)
                     {
                         connect.CurrentUser = foundUser;
-                        messagesServise.ShowWarning("Успешно",$"Добро пожаловать, {Username}");
+                        await messagesServise.ShowWarning("Успешно",$"Добро пожаловать, {Username}");
                         await Application.Current.MainPage.Navigation.PopAsync();
                     }
                     else
                     {
-                        messagesServise.ShowWarning("Ошибка", "Пользователь не найден");
+                        await messagesServise.ShowWarning("Ошибка", "Пользователь не найден");
                     }
                 }
             });

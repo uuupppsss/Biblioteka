@@ -25,12 +25,12 @@ namespace Biblioteka.mvvm.viewmodel
             {
                 if (Username == null || Password == null)
                 {
-                    messagesServise.ShowWarning("Ошибка", "Заполните все поля");
+                    await messagesServise.ShowWarning("Ошибка", "Заполните все поля");
                 }
                 else
                 {
                     await connect.AddUserAsync(new User {Username=Username,Password=Password});
-                    messagesServise.ShowWarning("Успешно", "Вы зарегистрированы");
+                    await messagesServise.ShowWarning("Успешно", "Вы зарегистрированы");
                 }
             });
         }
