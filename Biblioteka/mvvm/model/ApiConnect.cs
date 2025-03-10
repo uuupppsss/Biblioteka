@@ -37,7 +37,7 @@ namespace Biblioteka.mvvm.model
         }
 
 
-        //***Книги***
+        //***Книги**
 
         //получить список книг
         public async Task<List<Book>> GetBooksAsync()
