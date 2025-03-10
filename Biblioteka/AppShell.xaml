@@ -16,24 +16,16 @@
         <local:FooterView/>
     </Shell.FlyoutFooter>
 
+
     <!-- Главная страница -->
     <FlyoutItem Title="Главная" FlyoutDisplayOptions="AsSingleItem">
         <ShellContent Title="Главная" ContentTemplate="{DataTemplate view:MainPage}" />
     </FlyoutItem>
 
-    <!-- Вкладка для работы с книгами -->
-    <TabBar>
-        <Tab Title="Книги">
-            <ShellContent Title="Список книг" ContentTemplate="{DataTemplate view:MainPage}" />
-        </Tab>
-
-        <Tab Title="Добавить книгу">
-            <ShellContent Title="Добавить книгу" ContentTemplate="{DataTemplate view:AddBookPage}" />
-        </Tab>
-    </TabBar>
-
     <!-- Авторизация и регистрация -->
     <ShellContent Title="Авторизация" Route="login" ContentTemplate="{DataTemplate view:LoginPage}" />
     <ShellContent Title="Регистрация" Route="register" ContentTemplate="{DataTemplate view:RegisterPage}" />
 
+    <ShellContent Title="Список книг" ContentTemplate="{DataTemplate view:BooksPage}" />
+    <ShellContent Title="Добавить книгу" ContentTemplate="{DataTemplate view:AddBookPage}" />
 </Shell>

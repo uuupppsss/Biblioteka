@@ -10,7 +10,7 @@ namespace Biblioteka.mvvm.viewmodel
     [QueryProperty(nameof(SelectedBook), "SelectedBook")]
     public class BookDetailPageViewModel:BaseVM
     {
-        private ApiConnect connect;
+        private FakeDB connect;
         private Book _book;
 
         public Book SelectedBook
@@ -22,22 +22,35 @@ namespace Biblioteka.mvvm.viewmodel
             }
         }
 
-        public CommandVM BackClick {  get; set; }
+        //public CommandVM BackClick {  get; set; }
+        public CommandVM UpdateBook {  get; set; }
         public CommandVM DeleteBook { get; set; }
 
         public BookDetailPageViewModel()
         {
-            connect = ApiConnect.Instance;
+            connect = FakeDB.Instance;
 
-            BackClick = new CommandVM(async()=>
-            {
-                await Shell.Current.GoToAsync("MainPage");
-            });
+            //BackClick = new CommandVM(async()=>
+            //{
+            //    await Shell.Current.GoToAsync("MainPage");
+            //});
             DeleteBook = new CommandVM(async ()=>
             {
                 await connect.DeleteBookAsync(SelectedBook.Id);
-                await Shell.Current.GoToAsync("//MainPage");
-                Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
+                await Application.Current.MainPage.Navigation.PopAsync();
+            });
+
+            UpdateBook = new CommandVM(async () =>
+            {
+                //передача данных в AddBookPage
+                if (SelectedBook != null)
+                {
+                    var navigationParameter = new ShellNavigationQueryParameters
+                    {
+                        { "SelectedBook", SelectedBook }
+                    };
+                    await Shell.Current.GoToAsync("AddBookPage", navigationParameter);
+                }
             });
         }
 

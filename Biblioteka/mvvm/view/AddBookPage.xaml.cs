@@ -10,6 +10,11 @@ public partial class AddBookPage : ContentPage
         InitializeComponent();
         BindingContext = new AddBookViewModel();
     }
+
+    private void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
+    {
+        PagesCountLabel.Text = $"{e.NewValue:F0} страниц";
+    }
     //private readonly FakeDB _database;
     //private readonly Book _originalBookData; // Исходные данные для восстановления
     //private readonly Book _bookToEdit;
@@ -40,11 +45,6 @@ public partial class AddBookPage : ContentPage
     //        PagesLabel.Text = $"{_bookToEdit.PageCount} страниц";
     //        PublishDatePicker.Date = _bookToEdit.PublishDate;
     //    }
-    //}
-
-    //private void OnPagesSliderChanged(object sender, ValueChangedEventArgs e)
-    //{
-    //    PagesLabel.Text = $"{(int)e.NewValue} страниц";
     //}
 
     //private async void OnSaveClicked(object sender, EventArgs e)

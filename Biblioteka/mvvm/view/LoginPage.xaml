@@ -7,6 +7,5 @@
         <Entry Placeholder="Имя пользователя" Text="{Binding Username}"/>
         <Entry Placeholder="Пароль" IsPassword="True" Text="{Binding Password}"/>
         <Button Text="Войти" Command="{Binding LoginCommand}"/>
-        <Button Text="Регистрация" />
-        </StackLayout>
+    </StackLayout>
 </ContentPage>

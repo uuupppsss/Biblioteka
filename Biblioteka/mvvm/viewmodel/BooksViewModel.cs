@@ -12,7 +12,7 @@ namespace Biblioteka.mvvm.viewmodel
 {
     public class BooksViewModel:BaseVM
     {
-		private ApiConnect connect;
+		private FakeDB connect;
 
 		private List<Book> _books;
 
@@ -33,28 +33,34 @@ namespace Biblioteka.mvvm.viewmodel
 			set { 
 				_selectedBook = value; 
 				Signal() ;
+				ViewDetails();
 			}
 		}
 
-
-		public CommandVM ViewDetails {  get; set; }
-
         public BooksViewModel()
         {
-            connect=ApiConnect.Instance;
-			ViewDetails = new CommandVM(async () =>
-			{
-                if (SelectedBook != null)
-                {
-                    var navigationParameter = new ShellNavigationQueryParameters
+            connect=FakeDB.Instance;
+			connect.BooksListChanged += LoadBooks;
+			LoadBooks();
+			
+		}
+        private async void LoadBooks()
+        {
+            Books = await connect.GetBooksAsync();
+        }
+		private async void ViewDetails()
+		{
+            //передача данных в BookDetailPage
+            if (SelectedBook != null)
+            {
+                var navigationParameter = new ShellNavigationQueryParameters
                 {
                     { "SelectedBook", SelectedBook }
                 };
-                    await Shell.Current.GoToAsync("BookDetailPage", navigationParameter);
-                    SelectedBook = null;
-                }
-            });
-		}
+                SelectedBook = null;
+                await Shell.Current.GoToAsync("BookDetailPage", navigationParameter);
+            }
+        }
 
     }
 }

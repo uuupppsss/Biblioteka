@@ -12,6 +12,8 @@ namespace Biblioteka.mvvm.model
 {
     public class ApiConnect
     {
+        public User CurrentUser { get; set; }
+        public Action BooksListChanged;
         private HttpClient _httpClient;
         private MessagesServise _messagesServise;
         private static ApiConnect instance;
@@ -29,7 +31,7 @@ namespace Biblioteka.mvvm.model
         {
             _httpClient = new HttpClient()
             {
-                BaseAddress = new Uri("http://192.168.0.1:5105/api/")
+                BaseAddress = new Uri("http://10.2.2:5105/api/")
             };
             _messagesServise=MessagesServise.Instance;
         }
@@ -89,11 +91,26 @@ namespace Biblioteka.mvvm.model
                 {
                     await _messagesServise.ShowWarning("Error", responce.StatusCode.ToString());
                 }
+                else
+                {
+                    BooksListChanged.Invoke();
+                    //привязка к текущему пользователю
+                    if (CurrentUser != null)
+                    {
+                        LinkBookToUserAsync(book.Id, CurrentUser.Id);
+                    }
+                }
             }
             catch (Exception ex)
             {
                 await _messagesServise.ShowWarning("Error", ex.ToString());
             }
+        }
+
+        //Обновление книги
+        public async Task UpdateBookAsync()
+        {
+
         }
 
         // Удалить книгу по ID
@@ -105,6 +122,10 @@ namespace Biblioteka.mvvm.model
                 if (!responce.IsSuccessStatusCode)
                 {
                     await _messagesServise.ShowWarning("Error", responce.StatusCode.ToString());
+                }
+                else
+                {
+                    BooksListChanged.Invoke();
                 }
             }
             catch (Exception ex)

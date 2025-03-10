@@ -6,13 +6,16 @@
     <StackLayout Padding="20">
 
         <Label Text="Название книги:"/>
-        <Entry x:Name="TitleEntry" Placeholder="Введите название"/>
+        <Entry Text="{Binding Title,Mode=TwoWay}" Placeholder="Введите название"/>
 
         <Label Text="Автор:"/>
-        <Entry x:Name="AuthorEntry" Placeholder="Введите автора"/>
+        <Entry Text="{Binding Author,Mode=TwoWay}" Placeholder="Введите автора"/>
+
+        <Label Text="Описание:"/>
+        <Entry Text="{Binding Description,Mode=TwoWay}" Placeholder="Введите описание"/>
 
         <Label Text="Жанр:"/>
-        <Picker x:Name="GenrePicker" Title="Выберите жанр">
+        <Picker x:Name="GenrePicker" Title="Выберите жанр" SelectedItem="{Binding Genre,Mode=TwoWay}">
             <Picker.Items>
                 <x:String>Фантастика</x:String>
                 <x:String>Детектив</x:String>
@@ -23,14 +26,13 @@
         </Picker>
 
         <Label Text="Количество страниц:"/>
-        <Slider x:Name="PagesSlider" Minimum="50" Maximum="1000" />
-        <Label x:Name="PagesLabel" Text="50 страниц"/>
+        <Slider x:Name="PagesSlider" Minimum="50" Maximum="3000" Value="{Binding PageCount,Mode=TwoWay}"/>
+        <Label x:Name="PagesCountLabel" Text="{Binding PageCount}"/>
 
         <Label Text="Дата публикации:"/>
-        <DatePicker x:Name="PublishDatePicker"/>
+        <DatePicker x:Name="PublishDatePicker" Date="{Binding PublishDate,Mode=TwoWay}"/>
 
-        <Button Text="Сохранить" />
-        <Button Text="Отмена" BackgroundColor="Red" TextColor="White"/>
+        <Button Text="Сохранить" Command="{Binding SaveBookCommand}"/>
 
     </StackLayout>
 </ContentPage>

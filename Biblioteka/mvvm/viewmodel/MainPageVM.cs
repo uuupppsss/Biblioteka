@@ -11,7 +11,7 @@ namespace Biblioteka.mvvm.viewmodel
     public class MainPageVM:BaseVM
     {
         //Коллекция всех книг
-        private ApiConnect connect;
+        private FakeDB connect;
         private List<Book> _books;
         public List<Book> Books
         {
@@ -53,8 +53,14 @@ namespace Biblioteka.mvvm.viewmodel
 
         public MainPageVM()
         {
-            connect=ApiConnect.Instance;
+            Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
+            connect =FakeDB.Instance;
+            connect.BooksListChanged += LoadBooks;
             LoadBooks();
+            AddBook = new CommandVM(async () =>
+            {
+                await Shell.Current.GoToAsync("AddBookPage");
+            });
         }
 
         private async void LoadBooks()
