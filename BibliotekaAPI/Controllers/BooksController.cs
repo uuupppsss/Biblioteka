@@ -25,7 +25,7 @@ namespace BibliotekaAPI.Controllers
 
         // Получить книгу по ID
         [HttpGet("GetBookById/{id}")]
-        public async Task<ActionResult<User>> GetBookById(int id)
+        public async Task<ActionResult<Book>> GetBookById(int id)
         {
             var book = await _db.GetBookByIdAsync(id);
             if (book == null) return NotFound("Книга не найдена.");
