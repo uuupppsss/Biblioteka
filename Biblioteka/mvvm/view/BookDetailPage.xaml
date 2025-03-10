@@ -4,12 +4,13 @@
              x:Class="Biblioteka.mvvm.view.BookDetailPage"
              Title="BookDetailPage">
     <StackLayout Padding="20">
-        <Button Text="Назад" />
-        <Label Text="{Binding Title}" FontSize="24"/>
+        <Button Text="Назад" Command="{Binding BackClick}"/>
+        <Label Text="{Binding SelectedBook.Title}" FontSize="24"/>
         <StackLayout Orientation="Horizontal">
             <Label Text="Автор: " FontSize="18"/>
-            <Label Text="{Binding Book.Author}" FontSize="18"/>
+            <Label Text="{Binding SelectedBook.Author}" FontSize="18"/>
         </StackLayout>
-        <Label Text="{Binding Description}" FontSize="16"/>
+        <Label Text="{Binding SelectedBook.Description}" FontSize="16"/>
+        <Button Text="Удалить" Command="{Binding DeleteBook}"/>
     </StackLayout>
 </ContentPage>

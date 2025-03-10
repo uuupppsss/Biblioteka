@@ -20,11 +20,11 @@ namespace BibliotekaAPI.Controllers
         }
 
         // Получить список всех книг
-        [HttpGet]
+        [HttpGet("GetBooks")]
         public async Task<ActionResult> GetBooks() => Ok(await _db.GetBooksAsync());
 
         // Получить книгу по ID
-        [HttpGet("{id}")]
+        [HttpGet("GetBookById/{id}")]
         public async Task<ActionResult> GetBookById(int id)
         {
             var book = await _db.GetBookByIdAsync(id);
@@ -33,15 +33,15 @@ namespace BibliotekaAPI.Controllers
         }
 
         // Добавить новую книгу
-        [HttpPost]
-        public async Task<ActionResult> AddBook(Books book)
+        [HttpPost("AddBook")]
+        public async Task<ActionResult> AddBook(Book book)
         {
             await _db.AddBookAsync(book);
             return Ok("Книга успешно добавлена.");
         }
 
         // Удалить книгу по ID
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteBook/{id}")]
         public async Task<ActionResult> DeleteBook(int id)
         {
             await _db.RemoveBookByIdAsync(id);
@@ -49,7 +49,7 @@ namespace BibliotekaAPI.Controllers
         }
 
         // Привязка книги к пользователю
-        [HttpGet("link/{bookId}/{userId}")]
+        [HttpGet("LinkBookToUser/{bookId}/{userId}")]
         public async Task<ActionResult> LinkBookToUser(int bookId, int userId)
         {
             await _db.LinkBookToUserAsync(bookId, userId);
@@ -57,7 +57,7 @@ namespace BibliotekaAPI.Controllers
         }
 
         // Отвязка книги от пользователя
-        [HttpGet("unlink/{bookId}")]
+        [HttpGet("UnlinkBookFromUser/{bookId}")]
         public async Task<ActionResult> UnlinkBookFromUser(int bookId)
         {
             await _db.UnlinkBookFromUserAsync(bookId);

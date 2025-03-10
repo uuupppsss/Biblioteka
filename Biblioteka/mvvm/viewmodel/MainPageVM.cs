@@ -11,8 +11,9 @@ namespace Biblioteka.mvvm.viewmodel
     public class MainPageVM:BaseVM
     {
         //Коллекция всех книг
-            private ObservableCollection<Book> _books;
-        public ObservableCollection<Book> Books
+        private ApiConnect connect;
+        private List<Book> _books;
+        public List<Book> Books
         {
             get => _books;
             set
@@ -23,8 +24,8 @@ namespace Biblioteka.mvvm.viewmodel
         }
 
         // Коллекция популярных книг
-        private ObservableCollection<Book> _popularBooks;
-        public ObservableCollection<Book> PopularBooks
+        private List<Book> _popularBooks;
+        public List<Book> PopularBooks
         {
             get => _popularBooks;
             set
@@ -49,14 +50,17 @@ namespace Biblioteka.mvvm.viewmodel
         public CommandVM GoToDetails { get; set; }
         public CommandVM UpdateBook { get; set; }
 
+
         public MainPageVM()
         {
-            PopularBooks = new ObservableCollection<Book>
-            {
-            new Book { Title = "1984", Author = "Джордж Оруэлл", Description = "Антиутопия о тоталитарном обществе." },
-            new Book { Title = "Мастер и Маргарита", Author = "Михаил Булгаков", Description = "Роман о любви, вере и мистике." },
-            new Book { Title = "Убийство в Восточном экспрессе", Author = "Агата Кристи", Description = "Детективная история о загадочном убийстве." }
-            };
+            connect=ApiConnect.Instance;
+            LoadBooks();
+        }
+
+        private async void LoadBooks()
+        {
+            Books = await connect.GetBooksAsync();
+            PopularBooks = Books.Where(b => b.IsPopular).ToList();
         }
     }
 }

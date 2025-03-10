@@ -15,7 +15,6 @@
                         <StackLayout>
                             <Label Text="{Binding Title}" FontSize="20"/>
                             <Label Text="{Binding Author}" FontSize="16"/>
-                            <Button Text="Удалить" Command="{Binding DeleteBookCommand}" CommandParameter="{Binding}"/>
                         </StackLayout>
                     </Frame>
                 </DataTemplate>

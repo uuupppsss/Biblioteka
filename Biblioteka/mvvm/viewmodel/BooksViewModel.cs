@@ -12,69 +12,49 @@ namespace Biblioteka.mvvm.viewmodel
 {
     public class BooksViewModel:BaseVM
     {
-    //    private readonly FakeDB _database;
-    //    public ObservableCollection<Book> Books { get; set; }
+		private ApiConnect connect;
 
-    //    private Book _selectedBook;
-    //    public Book SelectedBook
-    //    {
-    //        get => _selectedBook;
-    //        set { 
-    //            _selectedBook = value;
-    //            Signal(); 
-    //        }
-    //    }
+		private List<Book> _books;
 
-    //    public Command AddBookCommand { get; }
-    //    public Command<Book> DeleteBookCommand { get; }
-    //    public Command<Book> SelectBookCommand { get; }
+		public List<Book> Books
+		{
+			get { return _books; }
+			set { 
+				_books = value;
+				Signal();
+			}
+		}
 
-    //    public BooksViewModel()
-    //    {
-    //        _database = new FakeDB();
-    //        Books = new ObservableCollection<Book>();
-    //        LoadBooks();
+		private Book _selectedBook;
 
-    //        AddBookCommand = new Command(async () => await AddBook());
-    //        DeleteBookCommand = new Command<Book>(async (book) => await DeleteBook(book));
-    //        SelectBookCommand = new Command<Book>(async (book) => await SelectBook(book));
-    //    }
+		public Book SelectedBook
+		{
+			get { return _selectedBook; }
+			set { 
+				_selectedBook = value; 
+				Signal() ;
+			}
+		}
 
-    //    private async void LoadBooks()
-    //    {
-    //        var books = await _database.GetBooksAsync();
-    //        Books.Clear();
-    //        foreach (var book in books)
-    //        {
-    //            Books.Add(book);
-    //        }
-    //    }
 
-    //    private async Task AddBook()
-    //    {
-    //        var database = new FakeDB();
-    //        await Application.Current.MainPage.Navigation.PushAsync(new AddBookPage(database));
-    //    }
+		public CommandVM ViewDetails {  get; set; }
 
-    //    private async Task DeleteBook(Book book)
-    //    {
-    //        if (book != null)
-    //        {
-    //            bool confirm = await Application.Current.MainPage.DisplayAlert("Удаление", "Вы уверены, что хотите удалить эту книгу?", "Да", "Нет");
-    //            if (confirm)
-    //            {
-    //                await _database.RemoveBookByIdAsync(book.Id);
-    //                LoadBooks();
-    //            }
-    //        }
-    //    }
+        public BooksViewModel()
+        {
+            connect=ApiConnect.Instance;
+			ViewDetails = new CommandVM(async () =>
+			{
+                if (SelectedBook != null)
+                {
+                    var navigationParameter = new ShellNavigationQueryParameters
+                {
+                    { "SelectedBook", SelectedBook }
+                };
+                    await Shell.Current.GoToAsync("BookDetailPage", navigationParameter);
+                    SelectedBook = null;
+                }
+            });
+		}
 
-    //    private async Task SelectBook(Book book)
-    //    {
-    //        if (book != null)
-    //        {
-    //            await Application.Current.MainPage.Navigation.PushAsync(new BookDetailPage(book));
-    //        }
-    //    }
     }
 }

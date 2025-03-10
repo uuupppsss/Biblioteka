@@ -10,7 +10,7 @@ namespace BibliotekaAPI.Model
     public class FakeDB
     {
         private ObservableCollection<User> _users;
-        private ObservableCollection<Books> _books;
+        private ObservableCollection<Book> _books;
         private Dictionary<int, int> _bookUserLinks; // <bookId, userId>
 
         private int _userIdCounter = 1;
@@ -18,12 +18,20 @@ namespace BibliotekaAPI.Model
 
         public FakeDB()
         {
-            _users = new ObservableCollection<User>();
-            _books = new ObservableCollection<Books>();
+            _users = new ObservableCollection<User>()
+            {
+                new User() { Id = _userIdCounter++, Username = "admin", Password = "1234" }
+            };
+            _books = new ObservableCollection<Book>()
+            {
+                new Book { Id = _bookIdCounter++, IsPopular=true, Title = "1984", Author = "Джордж Оруэлл", Description = "Антиутопия о тоталитарном обществе." },
+                new Book { Id = _bookIdCounter++, IsPopular=true, Title = "Мастер и Маргарита", Author = "Михаил Булгаков", Description = "Роман о любви, вере и мистике." },
+                new Book { Id = _bookIdCounter++, IsPopular=false, Title = "Убийство в Восточном экспрессе", Author = "Агата Кристи", Description = "Детективная история о загадочном убийстве." },
+                new Book() { Id = _bookIdCounter++, IsPopular=false, Title = "Я Умный", Author = "Самый умный" }
+            };
+
             _bookUserLinks = new Dictionary<int, int>(); // Связи книги с пользователем
 
-            _users.Add(new User() { Id = _userIdCounter++, Username = "admin", Password = "1234" });
-            _books.Add(new Books() { Id = _bookIdCounter++, Title = "Я Умный", Author = "Самый умный" });
 
             // Пример связи книги с пользователем
             _bookUserLinks.Add(1, 1); // Книга с Id = 1 закреплена за пользователем с Id = 1
@@ -74,20 +82,20 @@ namespace BibliotekaAPI.Model
         }
 
         // Получение списка книг
-        public async Task<ObservableCollection<Books>> GetBooksAsync()
+        public async Task<ObservableCollection<Book>> GetBooksAsync()
         {
-            return await Task.FromResult(new ObservableCollection<Books>(_books));
+            return await Task.FromResult(new ObservableCollection<Book>(_books));
         }
 
         // Получение книги по ID
-        public async Task<Books> GetBookByIdAsync(int id)
+        public async Task<Book> GetBookByIdAsync(int id)
         {
             var book = _books.FirstOrDefault(b => b.Id == id);
-            return await Task.FromResult(book != null ? new Books { Id = book.Id, Title = book.Title, Author = book.Author, Description = book.Description } : null);
+            return await Task.FromResult(book != null ? new Book { Id = book.Id, Title = book.Title, Author = book.Author, Description = book.Description } : null);
         }
 
         // Добавление книги
-        public async Task AddBookAsync(Books book)
+        public async Task AddBookAsync(Book book)
         {
             book.Id = _bookIdCounter++;
             _books.Add(book);
@@ -101,7 +109,7 @@ namespace BibliotekaAPI.Model
         }
 
         // Обновление данных книги
-        public async Task EditBookAsync(Books updatingBook)
+        public async Task EditBookAsync(Book updatingBook)
         {
             var book = _books.FirstOrDefault(b => b.Id == updatingBook.Id);
             if (book != null)

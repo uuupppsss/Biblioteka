@@ -4,8 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.12.35521.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biblioteka", "Biblioteka\Biblioteka.csproj", "{1CCAD7CD-C9E5-45BC-97AF-154F005CE449}"
+	ProjectSection(ProjectDependencies) = postProject
+		{70F49164-00CD-448C-B97F-DA0EDE200ADC} = {70F49164-00CD-448C-B97F-DA0EDE200ADC}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibliotekaAPI", "BibliotekaAPI\BibliotekaAPI.csproj", "{70F49164-00CD-448C-B97F-DA0EDE200ADC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibliotekaAPI", "BibliotekaAPI\BibliotekaAPI.csproj", "{70F49164-00CD-448C-B97F-DA0EDE200ADC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

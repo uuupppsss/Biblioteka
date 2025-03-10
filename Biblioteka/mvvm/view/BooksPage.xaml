@@ -3,17 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Biblioteka.mvvm.view.BooksPage"
              Title="BooksPage">
-    <CollectionView ItemsSource="{Binding Books}">
-        <CollectionView.ItemTemplate>
+    <ListView ItemsSource="{Binding Books}" SelectedItem="{Binding SelectedBook}">
+        <ListView.ItemTemplate >
             <DataTemplate>
                 <Frame Padding="10">
                     <StackLayout>
                         <Label Text="{Binding Title}" FontSize="20"/>
                         <Label Text="{Binding Author}" FontSize="16"/>
-                        <Button Text="Подробнее" Command="{Binding ViewDetailsCommand}"/>
                     </StackLayout>
                 </Frame>
             </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+        </ListView.ItemTemplate>
+    </ListView>
 </ContentPage>

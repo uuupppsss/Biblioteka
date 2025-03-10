@@ -7,16 +7,37 @@ using System.Threading.Tasks;
 
 namespace Biblioteka.mvvm.viewmodel
 {
+    [QueryProperty(nameof(SelectedBook), "SelectedBook")]
     public class BookDetailPageViewModel:BaseVM
     {
-        public Book Book { get; set; }
+        private ApiConnect connect;
+        private Book _book;
+
+        public Book SelectedBook
+        {
+            get { return _book; }
+            set {
+                _book = value;
+                Signal();
+            }
+        }
+
         public CommandVM BackClick {  get; set; }
+        public CommandVM DeleteBook { get; set; }
 
         public BookDetailPageViewModel()
         {
+            connect = ApiConnect.Instance;
+
             BackClick = new CommandVM(async()=>
             {
                 await Shell.Current.GoToAsync("MainPage");
+            });
+            DeleteBook = new CommandVM(async ()=>
+            {
+                await connect.DeleteBookAsync(SelectedBook.Id);
+                await Shell.Current.GoToAsync("//MainPage");
+                Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
             });
         }
 

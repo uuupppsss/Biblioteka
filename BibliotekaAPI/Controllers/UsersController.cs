@@ -21,11 +21,11 @@ namespace BibliotekaAPI.Controllers
         }
 
         // Получить всех пользователей
-        [HttpGet]
+        [HttpGet("GetUsers")]
         public async Task<ActionResult> GetUsers() => Ok(await _db.GetUsersAsync());
 
         // Получить пользователя по ID
-        [HttpGet("{id}")]
+        [HttpGet("GetUserById/{id}")]
         public async Task<ActionResult> GetUserById(int id)
         {
             var user = await _db.GetUserByIdAsync(id);
@@ -34,7 +34,7 @@ namespace BibliotekaAPI.Controllers
         }
 
         // Добавить нового пользователя
-        [HttpPost]
+        [HttpPost("AddUser")]
         public async Task<ActionResult> AddUser([FromBody] User user)
         {
             await _db.AddUserAsync(user);
@@ -42,7 +42,7 @@ namespace BibliotekaAPI.Controllers
         }
 
         // Удалить пользователя по ID
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteUser/{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {
             await _db.RemoveUserByIdAsync(id);
@@ -50,8 +50,8 @@ namespace BibliotekaAPI.Controllers
         }
 
         // Авторизация
-        [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody] User user)
+        [HttpPost("Login")]
+        public async Task<ActionResult> Login(User user)
         {
             var authenticatedUser = await _db.AuthenticateUserAsync(user.Username, user.Password);
 
