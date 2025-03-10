@@ -31,7 +31,7 @@ namespace Biblioteka.mvvm.model
         {
             _httpClient = new HttpClient()
             {
-                BaseAddress = new Uri("http://10.2.2:5105/api/")
+                BaseAddress = new Uri("http://10.0.2.2:5105/api/")
             };
             _messagesServise=MessagesServise.Instance;
         }
