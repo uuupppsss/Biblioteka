@@ -21,7 +21,11 @@ namespace BibliotekaAPI.Controllers
 
         // Получить список всех книг
         [HttpGet("GetBooks")]
-        public async Task<ActionResult<List<Book>>> GetBooks() => Ok(await _db.GetBooksAsync());
+        public async Task<ActionResult<List<Book>>> GetBooks()
+        {
+            var result = await _db.GetBooksAsync();
+            return Ok(result);
+        }
 
         // Получить книгу по ID
         [HttpGet("GetBookById/{id}")]

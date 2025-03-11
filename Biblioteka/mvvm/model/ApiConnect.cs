@@ -44,13 +44,14 @@ namespace Biblioteka.mvvm.model
         {
             try
             {
-                var responce = await _httpClient.GetAsync("books/GetBooks");
-                if (!responce.IsSuccessStatusCode)
-                {
-                    await _messagesServise.ShowWarning("Error", responce.StatusCode.ToString());
-                    return null;
-                }
-                else return await responce.Content.ReadFromJsonAsync<List<Book>>();
+                    var responce = await _httpClient.GetAsync("books/GetBooks");
+                    if (!responce.IsSuccessStatusCode)
+                    {
+                        await _messagesServise.ShowWarning("Error", responce.StatusCode.ToString());
+                        return null;
+                    }
+                    else return await responce.Content.ReadFromJsonAsync<List<Book>>();
+                    
             }
             catch (Exception ex)
             {
