@@ -14,20 +14,18 @@ namespace BibliotekaAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        //private readonly FakeDB _db;
-        private readonly NotFakeDB context;
+        private readonly FakeDB _db;
 
         public UsersController()
         {
-            context = NotFakeDB.Instance;
+            _db = new FakeDB("UsersTestDB");
         }
 
         // Получить всех пользователей
         [HttpGet("GetUsers")]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
-            var result = await context.Users.ToListAsync();
-            return Ok(result);
+            return Ok(await _db.GetUsersAsync());
         }
 
 
@@ -35,44 +33,36 @@ namespace BibliotekaAPI.Controllers
         [HttpGet("GetUserById/{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
-            var result = await context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            if(result==null) return NotFound();
-            var user = new User { Id = result.Id, Username = result.Username, Password = result.Password };
-            return Ok(user);
+            var result=await _db.GetUserByIdAsync(id);
+            if(result==null) return NotFound("Пользователь не найден");
+            else return Ok(result);
         }
 
         // Добавить нового пользователя
         [HttpPost("AddUser")]
         public async Task<ActionResult> AddUser( User user)
         {
-            await context.Users.AddAsync(user);
-            await context.SaveChangesAsync();
-            if(await context.Users.ContainsAsync(user)) return Ok();
-            else return BadRequest();
+            var result= await _db.AddUserAsync(user);
+            if(result) return Ok();
+            else return BadRequest("Что то пошло не так");
         }
 
         // Удалить пользователя по ID
         [HttpDelete("DeleteUser/{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            if (user != null) context.Users.Remove(user);
-            await context.SaveChangesAsync();
-            if (!await context.Users.ContainsAsync(user)) return Ok();
-            else return BadRequest();
+            var result = await _db.RemoveUserByIdAsync(id);
+            if (result) return Ok();
+            else return BadRequest("Что то пошло не так");
         }
 
         // Авторизация
         [HttpPost("Login")]
         public async Task<ActionResult<User>> Login(User user)
         {
-            var result = await context.Users.FirstOrDefaultAsync(u => u.Username == user.Username && u.Password == user.Password);
-            if (result != null)
-            {
-                var found_user = new User { Id=result.Id, Username = result.Username, Password = result.Password };
-                return Ok(found_user);
-            }
-            else return NotFound();
+            var result = await _db.AuthenticateUserAsync(user);
+            if (result==null) return NotFound("Пользователь не найден");
+            else return Ok(user);
         }
     }
 }
