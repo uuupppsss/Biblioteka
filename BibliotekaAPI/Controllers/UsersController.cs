@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BibliotekaAPI.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace BibliotekaAPI.Controllers
@@ -13,48 +14,65 @@ namespace BibliotekaAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly FakeDB _db;
+        //private readonly FakeDB _db;
+        private readonly NotFakeDB context;
 
-        public UsersController(FakeDB db)
+        public UsersController()
         {
-            _db = db;
+            context = NotFakeDB.Instance;
         }
 
         // Получить всех пользователей
         [HttpGet("GetUsers")]
-        public async Task<ActionResult<List<User>>> GetUsers() => Ok(await _db.GetUsersAsync());
+        public async Task<ActionResult<List<User>>> GetUsers()
+        {
+            var result = await context.Users.ToListAsync();
+            return Ok(result);
+        }
+
 
         // Получить пользователя по ID
         [HttpGet("GetUserById/{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
-            var user = await _db.GetUserByIdAsync(id);
-            if (user == null) return NotFound("Пользователь не найден.");
+            var result = await context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if(result==null) return NotFound();
+            var user = new User { Id = result.Id, Username = result.Username, Password = result.Password };
             return Ok(user);
         }
 
         // Добавить нового пользователя
         [HttpPost("AddUser")]
-        public async Task<ActionResult> AddUser([FromBody] User user)
+        public async Task<ActionResult> AddUser( User user)
         {
-            await _db.AddUserAsync(user);
-            return Ok("Пользователь успешно добавлен.");
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
+            if(await context.Users.ContainsAsync(user)) return Ok();
+            else return BadRequest();
         }
 
         // Удалить пользователя по ID
         [HttpDelete("DeleteUser/{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {
-            await _db.RemoveUserByIdAsync(id);
-            return Ok("Пользователь успешно удален.");
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (user != null) context.Users.Remove(user);
+            await context.SaveChangesAsync();
+            if (!await context.Users.ContainsAsync(user)) return Ok();
+            else return BadRequest();
         }
 
         // Авторизация
         [HttpPost("Login")]
         public async Task<ActionResult<User>> Login(User user)
         {
-            var authenticatedUser = await _db.AuthenticateUserAsync(user.Username, user.Password);
-            return Ok(authenticatedUser);
+            var result = await context.Users.FirstOrDefaultAsync(u => u.Username == user.Username && u.Password == user.Password);
+            if (result != null)
+            {
+                var found_user = new User { Id=result.Id, Username = result.Username, Password = result.Password };
+                return Ok(found_user);
+            }
+            else return NotFound();
         }
     }
 }

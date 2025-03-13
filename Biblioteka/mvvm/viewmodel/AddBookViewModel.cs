@@ -97,7 +97,6 @@ namespace Biblioteka.mvvm.viewmodel
                 if (!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Author))
                 {
                     await connect.AddBookAsync(new Book { Title = Title, Author = Author, Description = Description });
-                    await messagesServise.ShowWarning("Успешно", "Книга добавлена");
                     await Application.Current.MainPage.Navigation.PopAsync();
                 }
                 else
@@ -110,7 +109,6 @@ namespace Biblioteka.mvvm.viewmodel
                 if (!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Author))
                 {
                     await connect.UpdateBookAsync(new Book { Id=UpdatingBookId, Title = Title, Author = Author, Description = Description });
-                    await messagesServise.ShowWarning("Успешно", "Книга добавлена");
                     await Application.Current.MainPage.Navigation.PopAsync();
                 }
                 else

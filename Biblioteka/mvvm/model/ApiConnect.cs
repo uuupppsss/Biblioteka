@@ -27,13 +27,22 @@ namespace Biblioteka.mvvm.model
             }
         }
 
+        HttpClientHandler handler = new HttpClientHandler();
+
+
         public ApiConnect()
         {
-            _httpClient = new HttpClient()
+            //_httpClient = new HttpClient()
+            //{
+            //    BaseAddress = new Uri("http://10.0.2.2:5105/api/")
+            //};
+            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; }; //<- Чтоб апи подключалось 0.o
+
+            _httpClient = new HttpClient(handler)
             {
                 BaseAddress = new Uri("http://10.0.2.2:5105/api/")
             };
-            _messagesServise=MessagesServise.Instance;
+            _messagesServise =MessagesServise.Instance;
         }
 
 
@@ -44,7 +53,7 @@ namespace Biblioteka.mvvm.model
         {
             try
             {
-                    var responce = await _httpClient.GetAsync("books/GetBooks");
+                    var responce = await _httpClient.GetAsync("Books/GetBooks");
                     if (!responce.IsSuccessStatusCode)
                     {
                         await _messagesServise.ShowWarning("Error", responce.StatusCode.ToString());
@@ -65,7 +74,7 @@ namespace Biblioteka.mvvm.model
         {
             try
             {
-                var responce = await _httpClient.GetAsync($"books/ GetBookById/{id}");
+                var responce = await _httpClient.GetAsync($"Books/ GetBookById/{id}");
                 if (!responce.IsSuccessStatusCode)
                 {
                     await _messagesServise.ShowWarning("Error", responce.StatusCode.ToString());
@@ -86,7 +95,7 @@ namespace Biblioteka.mvvm.model
             try
             {
                 string json = JsonSerializer.Serialize(book);
-                var responce = await _httpClient.PostAsync($"books/AddBook",
+                var responce = await _httpClient.PostAsync($"Books/AddBook",
                     new StringContent(json, Encoding.UTF8, "application/json"));
                 if (!responce.IsSuccessStatusCode)
                 {
@@ -114,7 +123,7 @@ namespace Biblioteka.mvvm.model
             string json = JsonSerializer.Serialize(book);
             try
             {
-                var responce = await _httpClient.PostAsJsonAsync($"book/UpdateBook",
+                var responce = await _httpClient.PostAsJsonAsync($"Books/UpdateBook",
                     new StringContent(json, Encoding.UTF8, "application/json"));
                 if (!responce.IsSuccessStatusCode)
                 {
@@ -133,7 +142,7 @@ namespace Biblioteka.mvvm.model
         {
             try
             {
-                var responce = await _httpClient.DeleteAsync($"books/DeleteBook/{id}");
+                var responce = await _httpClient.DeleteAsync($"Books/DeleteBook/{id}");
                 if (!responce.IsSuccessStatusCode)
                 {
                     await _messagesServise.ShowWarning("Error", responce.StatusCode.ToString());
@@ -154,7 +163,7 @@ namespace Biblioteka.mvvm.model
         {
             try
             {
-                var responce = await _httpClient.GetAsync($"books/LinkBookToUser/{bookId}/{userId}");
+                var responce = await _httpClient.GetAsync($"Books/LinkBookToUser/{bookId}/{userId}");
                 if (!responce.IsSuccessStatusCode)
                 {
                     await _messagesServise.ShowWarning("Error", responce.StatusCode.ToString());
@@ -172,7 +181,7 @@ namespace Biblioteka.mvvm.model
             
             try
             {
-                var responce = await _httpClient.GetAsync($"books/UnlinkBookFromUser/{bookId}");
+                var responce = await _httpClient.GetAsync($"Books/UnlinkBookFromUser/{bookId}");
                 if (!responce.IsSuccessStatusCode)
                 {
                     await _messagesServise.ShowWarning("Error", responce.StatusCode.ToString());
@@ -192,7 +201,7 @@ namespace Biblioteka.mvvm.model
         {
             try
             {
-                var responce = await _httpClient.GetAsync($"users/GetUsers");
+                var responce = await _httpClient.GetAsync($"Users/GetUsers");
                 if (!responce.IsSuccessStatusCode)
                 {
                     await _messagesServise.ShowWarning("Error", responce.StatusCode.ToString());
@@ -212,7 +221,7 @@ namespace Biblioteka.mvvm.model
         {
             try
             {
-                var responce = await _httpClient.GetAsync($"users/ GetUserById/{id}");
+                var responce = await _httpClient.GetAsync($"Users/ GetUserById/{id}");
                 if (!responce.IsSuccessStatusCode)
                 {
                     await _messagesServise.ShowWarning("Error", responce.StatusCode.ToString());
@@ -233,7 +242,7 @@ namespace Biblioteka.mvvm.model
             string json = JsonSerializer.Serialize(user);
             try
             {
-                var responce = await _httpClient.PostAsJsonAsync($"users/AddUser",
+                var responce = await _httpClient.PostAsJsonAsync($"Users/AddUser",
                     new StringContent(json, Encoding.UTF8, "application/json"));
                 if (!responce.IsSuccessStatusCode)
                 {
@@ -253,7 +262,7 @@ namespace Biblioteka.mvvm.model
         {
             try
             {
-                var responce = await _httpClient.DeleteAsync($"users/DeleteUser/{id}");
+                var responce = await _httpClient.DeleteAsync($"Users/DeleteUser/{id}");
                 if (!responce.IsSuccessStatusCode)
                 {
                     await _messagesServise.ShowWarning("Error", responce.StatusCode.ToString());
@@ -271,7 +280,7 @@ namespace Biblioteka.mvvm.model
             try
             {
                 string json = JsonSerializer.Serialize(user);
-                var responce = await _httpClient.PostAsync($"users/Login",
+                var responce = await _httpClient.PostAsync($"Users/Login",
                     new StringContent(json, Encoding.UTF8, "application/json"));
                 if (!responce.IsSuccessStatusCode)
                 {
